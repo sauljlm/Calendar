@@ -14,12 +14,22 @@ const router = new Router([
         callback: EventController.getAll.bind(EventController)
     },
     {
+        path: 'api/v1/events/:date',
+        method: 'GET',
+        callback: EventController.getOne.bind(EventController)
+    },
+    {
         path: '/api/v1/events',
         method: 'POST',
         callback: EventController.createOne.bind(EventController),
     },
     {
-        path: 'api/v1/events/:id',
+        path: '/api/v1/events',
+        method: 'PUT',
+        callback: EventController.putOne.bind(EventController),
+    },
+    {
+        path: 'api/v1/events/:date',
         method: 'GET',
         callback: EventController.getOne.bind(EventController),
     },

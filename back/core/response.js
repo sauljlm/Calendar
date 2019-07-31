@@ -5,6 +5,7 @@ const HEADERS = {
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
 };
+
 module.exports = class Response {
     static Send (res, data, options = {}) {
         options = Object.assign({}, HEADERS, options);

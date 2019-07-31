@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Calendar</title>
+</head>
+
+<body>
+  <div class="create-form form-event"> 
+    <form action="#"> 
+      <h2 class="create-title">create event</h2>
+      <label for="name">Name:</label>
+      <input type="text" class="imput-event" name="name" id="name" value="" />
+
+      <label for="hour">Hour:</label>
+      <input type="date" class="imput-event" name="hour" id="hour" />
+
+      <input type="time" id="btn-submit-event">
+    </form>
+  </div>
+
+  <div class="inventory js-inventory"></div>
+  <script src="js/view.js"></script>
+</body>
+
+</html>

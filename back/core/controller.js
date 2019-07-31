@@ -30,6 +30,9 @@ class Controller {
     async _find (query = {}, options = {}) {
         options = this._getOptions(options);
         let col = await this.collection;
+        //.find es un methodo de mongo
+        // 
+        // let cursor = col.find({});
         let cursor = col.find(query);
 
         if(options.project) cursor.project(options.project)
@@ -99,18 +102,6 @@ class Controller {
             .reduce((t, k) => Object.assign(t, {[`${k}`]: 1}), {});
 
         return options;
-
-        // // si ordena
-        // if(query && query.sort) options.sort = [[query.sort, 1]];
-        // // apartir de donde empieza a leer
-        // if(query && query.page) options.skip = query.page;
-        // // limite de items por pagina
-        // if(query && query.itemPerPage) options.limit = query.itemPerPage;
-
-        // if(this.keys) options.project = this.keys
-        //     .reduce((t, k) => Object.assign(t, {[`${k}`]: 1}), {});
-
-        // return options;
     }
 }
 
