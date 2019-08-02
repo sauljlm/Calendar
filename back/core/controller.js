@@ -31,15 +31,12 @@ class Controller {
         options = this._getOptions(options);
         let col = await this.collection;
         //.find es un methodo de mongo
-        // 
-        // let cursor = col.find({});
         let cursor = col.find(query);
-
-        if(options.project) cursor.project(options.project)
-        if(options.skip) cursor.skip(options.skip);
-        if(options.limit) cursor.limit(options.limit);
-        if(options.filter) cursor.filter(options.filter);
-        if(options.sort) cursor.sort(options.sort);
+        // if(options.project) cursor.project(options.project)
+        // if(options.skip) cursor.skip(options.skip);
+        // if(options.limit) cursor.limit(options.limit);
+        // if(options.filter) cursor.filter(options.filter);
+        // if(options.sort) cursor.sort(options.sort);
 
         return cursor.toArray();
     }

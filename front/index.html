@@ -10,20 +10,31 @@
 </head>
 
 <body>
+  <div class="nav">
+    <button class="btn-add" disabled>Add Event</button>
+  </div>
+  <div class="cont-callendar js-callendar"></div>
   <div class="create-form form-event"> 
     <form action="#"> 
       <h2 class="create-title">create event</h2>
+      <label for="date">Date:</label>
+      <input type="date" class="imput-event" name="date" id="date" value="" />
+
+      <label for="hour">Hour:</label>
+      <input type="time" class="imput-event" name="hour" id="hour" />
+
       <label for="name">Name:</label>
       <input type="text" class="imput-event" name="name" id="name" value="" />
 
-      <label for="hour">Hour:</label>
-      <input type="date" class="imput-event" name="hour" id="hour" />
+      <label for="favorite">Favorite:</label>
+      <input type="checkbox" class="imput-event favorite" name="favorite" id="favorite" value="true">
 
-      <input type="time" id="btn-submit-event">
+      <label for="notes">Notes:</label>
+      <textarea class="imput-event" name="notes" id="notes" value="" ></textarea>
+
+      <input type="submit" id="btn-submit-event">
     </form>
   </div>
-
-  <div class="inventory js-inventory"></div>
   <script src="js/view.js"></script>
 </body>
 

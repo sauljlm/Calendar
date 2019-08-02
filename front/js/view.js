@@ -1,4 +1,4 @@
-const inventory = document.querySelector('.js-inventory');
+const content = document.querySelector('.js-callendar');
 // const popUpCar = document.querySelector('.form-event');
 const submitEvent = document.querySelector('#btn-submit-event');
 let dataCar = document.querySelectorAll('.imput-event');
@@ -44,6 +44,12 @@ function generateYear() {
   return year;
 }
 
+function setFirstDay(year, month) {
+  let date = new Date(year,month);
+  const firstDay = date.getDay();
+  return firstDay;
+}
+
 function generateCalendar(year, month) {
   const months = [
     'January',
@@ -59,25 +65,45 @@ function generateCalendar(year, month) {
     'November',
     'December'
     ];
-  if (!month) {generateMonth()};
-  if (!month) {generateYear()};
+  if (!month) {month = generateMonth()};
+  if (!year) {year = generateYear()};
 
+  const title = document.createElement('h1');
   const list = document.createElement('ul');
+  const firstDay = setFirstDay(year, month);
+  let day = 1;
+
   list.setAttribute('class', 'calendar');
-  for (let i = 1; i <= 36; i++) {
-    let date = new Date(year,month,i);
-    const thisMonth = date.getMonth();
-    if (thisMonth == month) {
-      const item = document.createElement('li');
-      date = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-      console.log(date);
+  title.setAttribute('class', 'tile');
+  title.innerHTML = `${year}-${months[month]}`;
+  
+  generateCalendarHead(list);
+
+  for (let i = 1; i < 36; i++) {
+    const item = document.createElement('li');
+    if(i >= firstDay) {
+      const date = new Date(year,month,day);
+      const thisMonth = date.getMonth();
+      if (thisMonth == month) {
+        const formatDate = date.toLocaleDateString('es-CR', { timeZone: 'UTC' });
+        item.setAttribute('data-date', `${formatDate}`);
+        item.innerHTML = `${day}`;
+        day++; 
+      } 
+      item.setAttribute('class', 'item');
+    } else {
+      item.setAttribute('class', 'day-empty');
     }
+    list.appendChild(item);
   }
+
+  content.appendChild(title);
+  content.appendChild(list);
 }
 
 function generateDate() {
   let date = new Date();
-  date = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+  date = date.toLocaleDateString('es-CR', { timeZone: 'UTC' });
   return date;
 }
 
@@ -133,6 +159,6 @@ submitEvent.addEventListener('click', (e)=> {
 });
 
 window.onload = function() {
-  generateCalendar(2019, 1);
+  generateCalendar();
   // getJson('http://localhost:5000/api/v1/events', renderEvents);
 };

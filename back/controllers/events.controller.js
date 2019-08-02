@@ -1,12 +1,9 @@
 const fs = require('fs');
 const fsPromise = require('fs').promises;
-// const formidable = require('formidable');
 const ObjectId = require('mongodb').ObjectId;
-
 const Controller = require('../core/controller');
 const Response = require('../core/response');
 const Utils = require('../core/utils');
-
 
 const ControllerConfig = {
     dir: `${__dirname}/../../events`,
@@ -20,7 +17,6 @@ class EventController extends Controller {
         super(config);
 
         this.dir = config.dir;
-        // this.formidable = new formidable.IncomingForm();
     }
 
     // esto se llama con el router.excute desde el objeto del index.js
