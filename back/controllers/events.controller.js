@@ -2,6 +2,7 @@ const fs = require('fs');
 const fsPromise = require('fs').promises;
 const ObjectId = require('mongodb').ObjectId;
 const Controller = require('../core/controller');
+const querystring = require('querystring');
 const Response = require('../core/response');
 const Utils = require('../core/utils');
 
@@ -29,24 +30,21 @@ class EventController extends Controller {
     }
 
     async createOne (req, res, route) {
-        let event = Utils.sanitize(route.data, ['name', 'description']);
-
-        let error = await this.validEvent(event);
-        if(error) return Response.BadRequest(res, error);
-
-        this.insertOne(event)
-            .then(newEvent => Response.Send(res, newEvent))
-            .catch(error => Response.ApplicationError(res, error));
+        let data = '';
+        req
+            .on('data', d => data += d)
+            .on('end', () => {
+                data = querystring.parse(data);
+                let error = this.validEvent(data);
+                if(error) return Response.BadRequest(res, error);
+        });
+        this.collection.insertOne(data)
+             .then(newEvent => Response.Send(res, newEvent))
+             .catch(error => Response.ApplicationError(res, error));
     }
 
-    async validEvent(event) {
-        if(Utils.isEmpty(event)) return new Error(`Invalid event`);
-        if(!event.name) return new Error(`Invalid event name`);
-
-        // validates the name is unique
-        let found = await this._findOne({name: event.name});
-        if(found) return new Error(`event name already exist`);
-        return null;
+    validEvent(data) {
+        if(!(data.date && data.hour && data.name)) return new Error(`Invalid event`);
     }
 
     getOne (req, res, route) {

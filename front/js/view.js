@@ -1,7 +1,12 @@
 const content = document.querySelector('.js-callendar');
 // const popUpCar = document.querySelector('.form-event');
-const submitEvent = document.querySelector('#btn-submit-event');
+const btnAdd = document.querySelector('.btn-add');
+const form = document.querySelector('.create-form');
 let dataCar = document.querySelectorAll('.imput-event');
+let daySelected = null;
+
+const submitEvent = document.querySelector('#btn-submit-event');
+let dataEvent = document.querySelectorAll('.imput-event');
 
 function sendForm(data, url) {
   let params = new URLSearchParams();
@@ -12,6 +17,21 @@ function sendForm(data, url) {
     method: 'POST',
     body: params.toString()
   })
+}
+
+function cleanItems() {
+  const items = document.querySelectorAll('.item')
+  items.forEach(item => {
+    item.classList.remove('day-active');
+  });
+}
+
+function actionDay(element) {
+  btnAdd.disabled = false;
+  const date = element.getAttribute('data-date');
+  cleanItems();
+  element.classList.add('day-active');
+  daySelected = date;
 }
 
 function generateCalendarHead(list) {
@@ -48,6 +68,12 @@ function setFirstDay(year, month) {
   let date = new Date(year,month);
   const firstDay = date.getDay();
   return firstDay;
+}
+
+function generateDate() {
+  let date = new Date();
+  date = date.toLocaleDateString('es-CR', { timeZone: 'UTC' });
+  return date;
 }
 
 function generateCalendar(year, month) {
@@ -88,9 +114,11 @@ function generateCalendar(year, month) {
         const formatDate = date.toLocaleDateString('es-CR', { timeZone: 'UTC' });
         item.setAttribute('data-date', `${formatDate}`);
         item.innerHTML = `${day}`;
+        item.setAttribute('class', 'item');
         day++; 
+
+        item.addEventListener('click', () => actionDay(item));
       } 
-      item.setAttribute('class', 'item');
     } else {
       item.setAttribute('class', 'day-empty');
     }
@@ -101,10 +129,15 @@ function generateCalendar(year, month) {
   content.appendChild(list);
 }
 
-function generateDate() {
-  let date = new Date();
-  date = date.toLocaleDateString('es-CR', { timeZone: 'UTC' });
-  return date;
+function selectToday() {
+  const date = generateDate();
+  const items = document.querySelectorAll('.item')
+  items.forEach(item => {
+    const data = item.getAttribute('data-date');
+    if (data == date) {
+      item.classList.add('today-active');
+    }
+  });
 }
 
 // function renderEvents(data) {
@@ -155,10 +188,13 @@ function getJson(url, funct) {
 
 submitEvent.addEventListener('click', (e)=> {
   e.preventDefault();
-  sendForm(dataCar, 'http://localhost:5000api/v1/events');
+  sendForm(dataEvent, 'http://localhost:5000/api/v1/events');
 });
 
 window.onload = function() {
   generateCalendar();
+  selectToday();
   // getJson('http://localhost:5000/api/v1/events', renderEvents);
 };
+
+btnAdd.addEventListener('click', ()=> form.classList.toggle('form-active'));

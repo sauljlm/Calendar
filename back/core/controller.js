@@ -49,11 +49,10 @@ class Controller {
         return col.findOne(query);
     }
 
-    async _insertOne (data) {
-        if(Utils.isEmpty(data)) throw new Error(`Empty data`);
-
-        return this.collection.insertOne(data)
-            .then(results => results.ops.length ===1 ? results.ops[0] : results.ops);
+    async _insertOne () {
+        return this.collection;
+        // this.collection.insertOne(data)
+        //      .then(results => results.ops.length ===1 ? results.ops[0] : results.ops);
     }
 
     // query = id

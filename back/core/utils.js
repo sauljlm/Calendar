@@ -3,10 +3,10 @@ const ObjectId = require('mongodb').ObjectId;
 class Utils {
     // revisa que esten los datos
     static sanitize (data, keys) {
-        if(Utils.isEmpty(keys)) return data;
-        return keys
-            .reduce((t, k) => Object.assign(t, {[`${k}`]: data[k]}), {});
-    }
+         if(Utils.isEmpty(keys)) return data;
+         return keys
+             .reduce((t, k) => Object.assign(t, {[`${k}`]: data[k]}), {});
+    } 
 
     // revisa si la data esta vacida
     static isEmpty (data) {
